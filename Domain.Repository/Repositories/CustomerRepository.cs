@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,10 @@ namespace Domain.Repository
 
         public bool ActivatePhoneNumber(string phoneNumber)
         {
-            var customer = _context.Customers.FirstOrDefault(c => c.PhoneNumbers.Any(n => n.PhoneNumber.Equals(phoneNumber)));
+            //var test = _context.Customers.Include(c => c.PhoneNumbers).Where(c=> c.PhoneNumbers.Any(n => n.PhoneNumber.Equals(phoneNumber)));
+
+            //var customer = allCustomers.FirstOrDefault(c => c.PhoneNumbers.Any(n => n.PhoneNumber.Equals(phoneNumber)));
+            var customer = _context.Customers.Include(c => c.PhoneNumbers).Where(c => c.PhoneNumbers.Any(n => n.PhoneNumber.Equals(phoneNumber))).FirstOrDefault();
 
             if (customer != null && customer.PhoneNumbers != null )
             {
